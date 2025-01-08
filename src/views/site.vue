@@ -11,16 +11,35 @@
                   <small class="text-xs text-gray-600 leading-0 mt-1 ml-1">https://testsite.smartbloks.site</small>
                </div>
             </div>
-            <iframe class="w-full flex-1" src="/preview"></iframe>
+            <iframe class="w-full flex-1" :src="`/preview?title=${newTitle}`"></iframe>
          </div>
       </div>
    </div>
 </template>
 
 <script lang='ts' setup>
+import {ref, watch} from "vue";
+import { storeToRefs } from 'pinia'
+import { useEditorStore } from '../store/editor';
+
 import Sidebar from '../components/Sidebar.vue'
 
+const editorStore = useEditorStore()
 
+const { title } = storeToRefs(editorStore)
+const newTitle = ref<string>('')
+
+/**
+  flickering fix -
+  debounce the title so it doesn't reload the iframe on every input
+*/
+const debounceTitle = () => {
+   setTimeout(() => {
+    newTitle.value = title.value
+  }, 700)
+}
+
+watch(title, () => debounceTitle(), { immediate: true })
 </script>
 
 <style lang='postcss' scoped></style>

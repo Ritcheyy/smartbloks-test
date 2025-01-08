@@ -5,13 +5,12 @@
 </template>
 
 <script lang='ts' setup>
-import { useEditorStore } from '../store/editor';
-import { storeToRefs } from 'pinia'
+import { useRoute } from "vue-router";
+import { computed } from "vue";
 
-const editorStore = useEditorStore()
+const route = useRoute()
 
-const { title } = storeToRefs(editorStore)
-
+const title = computed(() => route.query.title as string)
 </script>
 
 <style lang='postcss' scoped></style>

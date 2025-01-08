@@ -5,5 +5,11 @@ export const useEditorStore = defineStore('editor', {
         return {
             title: 'Hello'
         }
+    },
+
+    actions: {
+        updateTitle(title: string) {
+            this.title = title
+        }
     }
 })
